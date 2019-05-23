@@ -12,8 +12,15 @@ public class BoardVo {
 	private Long depth;
 	private String userName;
 	private int pageNo;
+	private Long parentNo;
 	
 	
+	public Long getParentNo() {
+		return parentNo;
+	}
+	public void setParentNo(Long parentNo) {
+		this.parentNo = parentNo;
+	}
 	public int getPageNo() {
 		return pageNo;
 	}

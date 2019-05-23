@@ -39,7 +39,7 @@
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<td><a href="" class="del">삭제</a></td>
+							<td><a href="${pageContext.servletContext.contextPath}/board/delete/${vo.no}" class="del">삭제</a></td>
 						</tr>
 						<!-- 
 						<tr>
@@ -60,13 +60,22 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="/board/list?p=3">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+					<c:if test="${paging.now > 1 }">
+						<li><a href="${pageContext.servletContext.contextPath}/board/list?p=${paging.now -1}">◀</a></li>					
+					</c:if>
+					<c:forEach var = 'item' items='${paging.pageList}' step="1" varStatus="status">
+						<c:choose>
+							<c:when test="${item eq paging.now}">
+								<li class="selected"><a href="${pageContext.servletContext.contextPath}/board/list?p=${item}">${item}</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="${pageContext.servletContext.contextPath}/board/list?p=${item}">${item}</a></li>
+							</c:otherwise>
+						</c:choose>							
+					</c:forEach>
+					<c:if test="${paging.now < paging.size }">
+						<li><a href="${pageContext.servletContext.contextPath}/board/list?p=${paging.now +1}">▶</a></li>
+					</c:if>
 					</ul>
 				</div>					
 				<!-- pager 추가 -->				

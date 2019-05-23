@@ -39,22 +39,18 @@
 	</insert>
 
 
-	<select id="list" parameterType="integer" resultType="boardvo">
+	<select id="list" parameterType="long" resultType="boardvo">
 		<![CDATA[
 			select a.no, a.title, a.contents, a.hit, a.reg_date regDate, a.group_no groupNo, a.order_no orderNo, a.depth, a.user_no userNo, b.name userName 
 			from board a, user b 
-			where a.user_no = b.no order by group_no desc, order_no asc			
-			]]>
-		<choose>
-			<when test="pageNo == null or depth == '' ">
-				 limit 10 offset 0
-			</when>
-			<otherwise>
-				 limit 10 offset #{pageNo}
-			</otherwise>
-		</choose>
-			
-		
+			where a.user_no = b.no order by group_no desc, order_no asc	limit 10 offset #{pageNo}		
+			]]>		
+	</select>
+	
+	<select id="size" resultType="integer">
+		<![CDATA[
+			select Ceil(count(*)/10) from board
+			]]>		
 	</select>
 	
 	<select id="selectDetail" parameterType="long" resultType="boardvo">
@@ -68,6 +64,40 @@
 	</update>
 	
 	<update id="updateOrderNo" parameterType="boardvo">
-		update board set order_no = order_no + 1 where group_no = #{groupNo} and order_no >= #{orderNo};
+		update board set order_no = order_no + 1 where group_no = #{groupNo} and order_no >= #{orderNo} 
 	</update>
+	
+	<select id="selectReplyList" parameterType="boardvo" resultType="boardvo">
+			<![CDATA[
+			select no 
+			from board 
+			where no in 
+				(select board_no 
+					from reply 
+					where reply_no = (select b.no from board b 
+										where b.order_no = #{orderNo} and b.group_no = #{groupNo}))
+				]]>
+	</select>
+	
+	<select id="deleteReplyList" parameterType="long" resultType="boardvo">
+			<![CDATA[
+			select no 
+			from board 
+			where no in 
+				(select reply_no 
+					from reply 
+					where board_no =#{no})
+				]]>
+	</select>
+	
+	<insert id="insertReplyTable" parameterType="boardvo">
+		INSERT INTO reply(reply_no, board_no)
+			VALUES (#{no},#{parentNo})
+	</insert>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from board where no=#{no}
+		]]>
+</delete>
 </mapper>
