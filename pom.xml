@@ -204,6 +204,18 @@
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
+			<!-- 젠킨스 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<url>http://127.0.0.1/manager/text</url>
+					<path>/mysite2</path>
+					<username>djawlths3</username>
+					<password>1234</password>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 
 	</build>
