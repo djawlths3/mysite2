@@ -211,7 +211,7 @@
 				<configuration>
 					<url>http://127.0.0.1:8080/manager/text</url>
 					<path>/mysite2</path>
-					<username>djawlths3</username>
+					<username>cafe24</username>
 					<password>1234</password>
 				</configuration>
 			</plugin>
