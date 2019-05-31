@@ -23,10 +23,7 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
-//		ApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-//		UserService userService = ac.getBean(UserService.class);
-		
+
 		UserVo authUser = userService.getUser( new UserVo(email, password) );
 		if(authUser == null) {
 			response.sendRedirect(request.getContextPath()+"/user/login");
